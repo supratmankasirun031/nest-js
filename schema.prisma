@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./sabir.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Sampel {
+  id                  String         @id
+  nomor_sampel        String
+  nama_sampel         String
+  jenis_sampel        String
+  lokasi_sampel       String
+  tanggal_pengambilan DateTime
+  nama_alat           String
+  type                String
+  sampel_detail       SampelDetail[]
+}
+
+model SampelDetail {
+  sampel_id          String
+  parameter_uji      String
+  satuan             String
+  hasil_uji          String
+  nilai_ambang_batas String
+  keterangan         String
+  sampel             Sampel @relation(fields: [sampel_id], references: [id])
+
+  @@id([sampel_id, parameter_uji])
+}
